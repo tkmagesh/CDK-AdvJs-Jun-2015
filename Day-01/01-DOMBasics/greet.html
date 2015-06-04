@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Greet App</title>
+    <script>
+        function displayGreetMessage(){
+            var txtName = document.getElementById("txtName");
+            var name= txtName.value;
+            var greetMsg = "Hi " + name + ", Have a nice day!";
+            var dm = document.getElementById("divMessage");
+            dm.innerText = greetMsg;
+        }
+        function initialize(){
+            var btnGreet = document.getElementById("btnGreet");
+            btnGreet.addEventListener("click",displayGreetMessage);
+        }
+        window.addEventListener("DOMContentLoaded", initialize);
+    </script>
+</head>
+<body>
+    <label for="">Name :</label>
+    <input type="text" id="txtName">
+    <input type="button" value="Greet" id="btnGreet">
+    <div id="divMessage">
+        [Greet Message goes here]
+    </div>
+</body>
+</html>
