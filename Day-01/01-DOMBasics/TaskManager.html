@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager</title>
+    <style>
+        .completed{
+            color : red;
+            text-decoration: line-through;
+            font-style: italic;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        /*
+            Use cases
+            1. Add a new task
+            2. Toggle the task completion status
+            3. Remove completed tasks
+        */
+    </script>
+</head>
+<body>
+    <h1>Task Manager</h1>
+    <label for="">Task :</label>
+    <input type="text" name="" id="txtTask">
+    <input type="button" value="Add Task" id="btnAdd">
+    <input type="button" value="Remove Completed" id="btnRemoveCompleted">
+    <ol id="olTaskList">
+        <li>Task - 1</li>
+        <li class="completed">Task - 2</li>
+        <li>Task - 3</li>
+    </ol>
+</body>
+</html>

@@ -3,9 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title>Calculator</title>
+    <style>
+        .invalid{
+            border : 2px solid red;
+            background-color: lightpink;
+        }
+        .number {
+            color : blue;
+        }
+    </style>
+    <script>
+    window.addEventListener("DOMContentLoaded", init);
+        var txtNumber1, txtNumber2;
+        var btnCalculate;
+        function init(){
+            btnCalculate = document.getElementById("btnCalculate");
+            btnCalculate.addEventListener("click", onBtnCalculateClick);
+            txtNumber1 = document.getElementById("txtNumber1");
+            txtNumber1.addEventListener("keyup", onTxtKeyUp);
+            txtNumber2 = document.getElementById("txtNumber2");
+            txtNumber2.addEventListener("keyup", onTxtKeyUp);
+        }
+        function onTxtKeyUp(evtArg){
+            console.dir(evtArg);
+            btnCalculate.disabled = !(validate(txtNumber1) && validate(txtNumber2));
+            if (this.value !== ''){
+                clearValidation(this);
+            } else {
+                validate(this);
+            }
+        }
+        function validate(txtBox){
+            if (txtBox.value === ''){
+                txtBox.style.border = '2px solid red';
+                txtBox.style.backgroundColor = "lightpink";
+                return false;
+            }
+            return true;
+        }
+        function clearValidation(txtBox){
+            txtBox.style.border = '';
+            txtBox.style.backgroundColor = '';
+        }
+        function onBtnCalculateClick(evtArg){
+            console.dir(evtArg);
+            var txt1ValidationResult = validate(txtNumber1),
+                txt2ValidationResult = validate(txtNumber2);
+            if (txt1ValidationResult && txt2ValidationResult){
+                var number1 = parseInt(txtNumber1.value,10);
+                var number2 = parseInt(txtNumber2.value,10);
+                var operation = document.getElementById("selectOperation").value;
+                var result = 0;
+                switch(operation){
+                    case '+':
+                        result = number1 + number2;
+                        break;
+                    case '-':
+                        result = number1 - number2;
+                        break;
+                    case '*':
+                        result = number1 * number2;
+                        break;
+                    case '/':
+                        result = number1 / number2;
+                        break;
+                }
+                var divResult = document.getElementById("divResult");
+                divResult.innerHTML = result;
+            }
+        }
+    </script>
 </head>
 <body>
-    <input type="text" name="" id="txtNumber1">
+    <input type="text" name="" id="txtNumber1" class="invalid number">
     <select name="" id="selectOperation">
         <option value="+">add</option>
         <option value="-">subtract</option>
