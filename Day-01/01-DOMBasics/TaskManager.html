@@ -10,6 +10,9 @@
             font-style: italic;
             font-weight: bold;
         }
+        li{
+            cursor: pointer;
+        }
     </style>
     <script>
         /*
@@ -18,6 +21,47 @@
             2. Toggle the task completion status
             3. Remove completed tasks
         */
+        window.addEventListener("DOMContentLoaded", init);
+        var olTaskList;
+        function init(){
+            document.getElementById("btnAdd").addEventListener("click", onBtnAddClick);
+            document.getElementById("btnRemoveCompleted").addEventListener("click", onBtnRemoveCompletedClick);
+            olTaskList = document.getElementById("olTaskList");
+            for(var i=0; i<olTaskList.children.length; i++){
+                var taskItem = olTaskList.children[i];
+                taskItem.addEventListener("click", onTaskItemClick);
+            }
+        }
+        function onTaskItemClick(){
+            /*if (this.classList.contains("completed")){
+                this.classList.remove("completed")
+            } else {
+                this.classList.add("completed");
+            }*/
+            this.classList.toggle("completed");
+        }
+        function onBtnAddClick(){
+            var taskName = document.getElementById("txtTask").value;
+            var newTask = document.createElement("li");
+            newTask.textContent = taskName;
+            newTask.addEventListener("click", onTaskItemClick);
+            olTaskList.appendChild(newTask);
+        }
+        function onBtnRemoveCompletedClick(){
+            /*for(var i=olTaskList.children.length - 1; i>=0; i--){
+                var taskItem = olTaskList.children[i];
+                if (taskItem.classList.contains("completed")){
+                    taskItem.removeEventListener("click", onTaskItemClick);
+                    taskItem.remove();
+                }
+            }*/
+            var allCompletedTasks = document.getElementsByClassName("completed");
+            for(var i=allCompletedTasks.length - 1; i>=0; i--){
+                var taskItem = allCompletedTasks[i];
+                taskItem.removeEventListener("click", onTaskItemClick);
+                taskItem.remove();
+            }
+        }
     </script>
 </head>
 <body>
@@ -28,7 +72,7 @@
     <input type="button" value="Remove Completed" id="btnRemoveCompleted">
     <ol id="olTaskList">
         <li>Task - 1</li>
-        <li class="completed">Task - 2</li>
+        <li>Task - 2</li>
         <li>Task - 3</li>
     </ol>
 </body>
