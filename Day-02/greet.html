@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Greet App</title>
+    <script src="jquery-2.1.4.js"></script>
+    <script>
+        function displayGreetMessage(){
+            var greetMsg = "Hi " + $("#txtName").val() + ", Have a nice day!";
+            $("#divMessage").text(greetMsg);
+        }
+
+        //window.addEventListener("DOMContentLoaded", initialize);
+        //$(document).ready(initialize);
+        $(function initialize(){
+            $("#btnGreet").click(displayGreetMessage);
+        });
+    </script>
+</head>
+<body>
+    <label for="">Name :</label>
+    <input type="text" id="txtName">
+    <input type="button" value="Greet" id="btnGreet">
+    <div id="divMessage">
+        [Greet Message goes here]
+    </div>
+</body>
+</html>

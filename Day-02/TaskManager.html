@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager</title>
+    <style>
+        .completed{
+            color : red;
+            text-decoration: line-through;
+            font-style: italic;
+            font-weight: bold;
+        }
+        li{
+            cursor: pointer;
+        }
+    </style>
+    <script src="jquery-2.1.4.js"></script>
+    <script src="taskManager.js"></script>
+    <script>
+        /*
+            Use cases
+            1. Add a new task
+            2. Toggle the task completion status
+            3. Remove completed tasks
+        */
+
+    </script>
+</head>
+<body>
+    <h1>Task Manager</h1>
+    <label for="">Task :</label>
+    <input type="text" name="" id="txtTask">
+    <select id="selectCategory">
+        <option value="Professional">Professional</option>
+        <option value="Personal">Personal</option>
+        <option value="Recreational">Recreational</option>
+    </select>
+    <input type="button" value="Add Task" id="btnAdd">
+    <input type="button" value="Remove Completed" id="btnRemoveCompleted">
+    <div>
+        <h3 id="headProfessional">Professional</h3>
+        <ol id="olProfessionalTaskList">
+            <li>Task - 1</li>
+            <li>Task - 2</li>
+            <li>Task - 3</li>
+        </ol>
+    </div>
+    <div>
+        <h3>Personal</h3>
+        <ol id="olTaskList">
+            <li>Task - 1</li>
+            <li>Task - 2</li>
+            <li>Task - 3</li>
+        </ol>
+    </div>
+    <div>
+        <h3>Recreational</h3>
+        <ol id="olTaskList">
+            <li>Task - 1</li>
+            <li>Task - 2</li>
+            <li>Task - 3</li>
+        </ol>
+    </div>
+
+</body>
+</html>

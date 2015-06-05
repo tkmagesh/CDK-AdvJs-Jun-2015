@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" id="html">
+<head id="head">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div{
+            border-width: 2px;
+            border-style: solid;
+            margin: 20px;
+            padding: 20px;
+        }
+        #first{
+            border-color: blue;
+            background-color: lightblue;
+        }
+        #second{
+            border-color: red;
+            background-color: lightpink;
+        }
+        #third{
+            border-color: green;
+            background-color: palegreen;
+        }
+    </style>
+    <script>
+    window.addEventListener("DOMContentLoaded", function(){
+        var allNodes = document.querySelectorAll("*");
+        for(var i=0; i < allNodes.length ; i++)
+            allNodes[i].addEventListener("click", whoAmI);
+    });
+        function whoAmI(evtArg){
+            console.log(this, evtArg.target);
+        }
+    </script>
+</head>
+<body id="body">
+    <div id="first">
+        <span id="span-1">This is the span in the first div</span>
+        <div id="second">
+            <span id="span-2">This is the span in the second div</span>
+            <div id="third">
+                <span id="span-3">This is the span in the third div</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
