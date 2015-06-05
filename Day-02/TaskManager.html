@@ -13,7 +13,20 @@
         li, h3{
             cursor: pointer;
         }
-
+        #divMessages {
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            padding: 10px;
+        }
+        .message{
+            border : 1px dotted black;
+            background-color: lightgrey;
+            color: black;
+            padding: 5px;
+            margin: 5px;
+            border-radius: 5px;
+        }
     </style>
     <script src="jquery-2.1.4.js"></script>
     <script src="taskManager.js"></script>
@@ -41,7 +54,9 @@
     </select>
     <input type="button" value="Add Task" id="btnAdd">
     <input type="button" value="Remove Completed" id="btnRemoveCompleted">
+    <div id="divMessages">
 
+    </div>
 
 </body>
 </html>
