@@ -1,7 +1,10 @@
         $(function init(){
             $("#btnAdd").click(onBtnAddClick);
             $("#btnRemoveCompleted").click(onBtnRemoveCompletedClick);
-            $(document.body).on("click", "ol.taskList > li", onTaskItemClick);
+            $(document.body).on("click", "h3", function(){
+                $("ol.taskList").hide();
+                $(this).siblings("ol.taskList").show();
+            });
         });
         function onTaskItemClick(){
             $(this).toggleClass("completed");
@@ -13,8 +16,9 @@
             if ($(sectionSelector).length === 0){
                 $(sectionTemplate)
                     .addClass(category)
+                    .find("h3").html(category)
+                    .end()
                     .appendTo(document.body)
-                    .find("h3").html(category);
             }
             var taskName = $("#txtTask").val()
             var listSelector = sectionSelector + " > ol";
