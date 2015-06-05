@@ -1,0 +1,36 @@
+For retrieving all the tasks
+$.ajax({
+   method : 'get',
+   url : "http://localhost:3000/tasks",
+   contentType : "application/json",
+   dataType : "json",
+   success : function(response){
+      console.log(response);
+   }
+});
+
+var newTask = {"name" : "Plan dinner", "isCompleted" : false, category : "Recreational"}
+
+$.ajax({
+   method : 'post',
+   url : "http://localhost:3000/tasks",
+   contentType : "application/json",
+   dataType : "json",
+   data : JSON.stringify(newTask),
+   success : function(response){
+      console.table(response);
+   }
+});
+
+var updatedTask = {"name" : "Plan dinner at Taj Vivanta", "isCompleted" : false, category : "Recreational", "id" : 5}
+
+$.ajax({
+   method : 'put',
+   url : "http://localhost:3000/tasks/5",
+   contentType : "application/json",
+   dataType : "json",
+   data : JSON.stringify(updatedTask),
+   success : function(response){
+      console.table(response);
+   }
+});
