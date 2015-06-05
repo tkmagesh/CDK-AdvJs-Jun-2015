@@ -1,19 +1,27 @@
         $(function init(){
             $("#btnAdd").click(onBtnAddClick);
             $("#btnRemoveCompleted").click(onBtnRemoveCompletedClick);
-            $("#olTaskList").on("click", "li:eq(1)", onTaskItemClick);
-            $("#headProfessional").click(function(){
-                $("#olProfessionalTaskList").toggle();
-            });
+            $(document.body).on("click", "ol.taskList > li", onTaskItemClick);
         });
         function onTaskItemClick(){
             $(this).toggleClass("completed");
         }
         function onBtnAddClick(){
+            var sectionTemplate = "<div><h3></h3><ol class='taskList'></ol></div>";
+            var category = $("#selectCategory").val();
+            var sectionSelector = "div." + category;
+            if ($(sectionSelector).length === 0){
+                $(sectionTemplate)
+                    .addClass(category)
+                    .appendTo(document.body)
+                    .find("h3").html(category);
+            }
+            var taskName = $("#txtTask").val()
+            var listSelector = sectionSelector + " > ol";
             $("<li>")
-                .html($("#txtTask").val())
-                .appendTo("#olTaskList");
+                .html(taskName)
+                .appendTo(listSelector);
         }
         function onBtnRemoveCompletedClick(){
-            $("#olTaskList > li.completed").remove();
+            $("ol.taskList > li.completed").remove();
         }
