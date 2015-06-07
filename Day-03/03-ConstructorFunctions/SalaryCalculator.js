@@ -9,12 +9,16 @@ function SalaryCalculator(basic, hra, da, tax){
     this.hra = hra;
     this.da = da;
     this.tax = tax;
-    this.salary = 0;
-    this.calculate = function(){
+    var _salary = 0;
+    this.getSalary = function(){
+        return _salary;
+    }
+
+}
+ SalaryCalculator.prototype.calculate = function(){
         var gross = this.basic + this.hra + this.da;
         this.salary = gross * ((100-this.tax)/100);
     }
-}
 
 function extend(dest, sources){
    for(var i=0; i<sources.length; i++){
