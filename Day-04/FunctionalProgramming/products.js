@@ -6,14 +6,17 @@ var products = [
     {id : 6, name : "Zen", cost : 80, units : 90, category : 2},
     {id : 2, name : "Ken", cost : 20, units : 30, category : 1}
 ]
+
 function print(title, fn){
     console.group(title);
     fn();
     console.groupEnd();
 }
+
 print("Initial List", function(){
     console.table(products);
 })
+
 print("Sorting", function(){
     print("Default products sort by id", function(){
         function sort(){
@@ -210,6 +213,58 @@ print("Transform", function(){
     var newProductList = transform(products, productTransformer);
     console.table(newProductList);
 });
+
+print("GroupBy", function(){
+    function groupBy(list, keySelector){
+        var result = {};
+        for(var i=0; i<list.length; i++){
+            var key = keySelector(list[i]);
+            result[key] = result[key] || [];
+            result[key].push(list[i]);
+        }
+        return result;
+    }
+    print("Grouped By Categories", function(){
+        var productsByCategory = groupBy(products, function(p){ return p.category;});
+        for(var key in productsByCategory){
+            print("Key - " + key, function(){
+                console.table(productsByCategory[key]);
+            });
+        }
+    });
+
+    print("Grouped By Cost", function(){
+        var productsByCost = groupBy(products, function(p){
+            return p.cost < 50 ? "affordable" : "costly";
+        });
+        for(var key in productsByCost){
+            print("Key - " + key, function(){
+                console.table(productsByCost[key]);
+            });
+        }
+    })
+})
+
+function memoize(fn, keySelector){
+     var cache = {};
+     return function(){
+        keySelector = keySelector || function(){ return arguments[0] }
+        var key = keySelector.apply(this,arguments);
+        if (typeof cache[key] === "undefined")
+            cache[key] = fn.apply(this,arguments);
+        return cache[key];
+     }
+}
+
+function after(fn, count, context){
+    var counter = 0;
+    context = context || this;
+    return function(){
+        ++counter;
+        if (counter > count)
+            return fn.apply(context,arguments);
+    }
+}
 /*
 sort
 filter
@@ -222,4 +277,5 @@ countBy
 aggregate
 transform
 group
+memoize
 */
