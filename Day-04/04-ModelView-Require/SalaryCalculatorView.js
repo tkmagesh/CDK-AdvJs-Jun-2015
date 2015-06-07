@@ -15,7 +15,7 @@ define(['jquery','handlebars', 'text!calculatorTemplate.html', 'utils'], functio
             $el.on("change", "#rangeTax", function(){
                 calculator.set('tax', this.value.toInt());
             });
-            $("#btnCalculate").click(function(){
+            $el.on("click", "#btnCalculate",function(){
                 calculator.calculate();
             });
 
