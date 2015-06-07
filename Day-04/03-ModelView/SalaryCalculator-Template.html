@@ -16,6 +16,8 @@
         }
     </style>
     <script src="jquery-2.1.4.js"></script>
+    <script src="handlebars-v3.0.3.js"></script>
+
     <script>
         String.prototype.toInt = function(){
             return parseInt(this.toString(),10);
@@ -29,15 +31,25 @@
             };
             this.set = function(attrName, value){
                 _data[attrName] = value;
-                _events[attrName].forEach(function(listenerFn){
+                triggerChangeFor(attrName);
+                triggerChangeFor('all');
+            };
+            function triggerChangeFor(attrName){
+                var listenerFns = _events[attrName] || [];
+                listenerFns.forEach(function(listenerFn){
                     listenerFn();
                 });
+            }
+            var _events = {
+                all : []
             };
-            var _events = {};
             this.addChangeListener = function(attrName, listenerFn){
                 _events[attrName] = _events[attrName] || [];
                 _events[attrName].push(listenerFn);
             };
+            this.toJSON = function(){
+                return JSON.parse(JSON.stringify(_data));
+            }
 
 
 
@@ -71,26 +83,16 @@
                 });
 
 
-                calculator.addChangeListener('salary', function(){
-                    $("#divResult", $el).html(calculator.get('salary'));
-                });
-                calculator.addChangeListener("basic", function(){
-                    $("#txtBasic", $el).val(calculator.get('basic'));
-                });
-                calculator.addChangeListener("hra", function(){
-                    $("#txtHra", $el).val(calculator.get('hra'));
-                });
-                calculator.addChangeListener("da", function(){
-                    $("#txtDa", $el).val(calculator.get('da'));
-                });
-                calculator.addChangeListener("tax", function(){
-                    $("#rangeTax", $el).val(calculator.get('tax'));
-                    $("#spanTax", $el).html(calculator.get('tax'));
-                });
+                calculator.addChangeListener("all", (function(){
+                    this.render();
+                }).bind(this))
             };
 
             this.render = function(){
-                $el.html($("#calculatorTemplate").html());
+                var templateHTML = $("#calculatorTemplate").html();
+                var templateFn = Handlebars.compile(templateHTML);
+                var result = templateFn(calculator.toJSON());
+                $el.html(result);
                 return this;
             }
         }
@@ -104,40 +106,35 @@
                 tax : 0,
                 salary : 0
             });
-
             var view1 = new SalaryCalculatorView(calculator);
             view1.initialize();
             view1.render().$el.appendTo(document.body);
-
-            var view2 = new SalaryCalculatorView(calculator);
-            view2.initialize();
-            view2.render().$el.appendTo(document.body);
         });
     </script>
     <script type="text/template" id="calculatorTemplate">
     <div class="content" >
         <div class="field">
             <label for="">Basic :</label>
-            <input type="text" name="" id="txtBasic">
+            <input type="text" name="" id="txtBasic" value="{{basic}}">
         </div>
             <div class="field">
             <label for="">HRA :</label>
-            <input type="text" name="" id="txtHra">
+            <input type="text" name="" id="txtHra" value="{{hra}}">
         </div>
         <div class="field">
             <label for="">DA :</label>
-            <input type="text" name="" id="txtDa">
+            <input type="text" name="" id="txtDa" value="{{da}}">
         </div>
         <div class="field">
             <label for="">Tax %:</label>
-            <input type="range" name="" id="rangeTax" min="0" max="30" value="0">
-            <span id="spanTax">[Tax]</span>
+            <input type="range" name="" id="rangeTax" min="0" max="30" value="{{tax}}">
+            <span id="spanTax">{{tax}}</span>
         </div>
         <div class="field">
             <input type="button" value="Calculate" id="btnCalculate">
         </div>
         <div class="field">
-            <div id="divResult">[Salary]</div>
+            <div id="divResult">{{salary}}</div>
         </div>
     </div>
     </script>
