@@ -1,0 +1,10 @@
+ .field{
+            margin-bottom: 5px;
+        }
+        #divResult{
+            font-size: 20pt;
+            color : red;
+        }
+        label{
+            display: block;
+        }
