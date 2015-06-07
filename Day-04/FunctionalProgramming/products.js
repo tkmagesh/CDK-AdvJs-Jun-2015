@@ -135,6 +135,81 @@ print("Filter", function(){
         });
     });
 });
+
+print("All", function(){
+    function all(list, predicate){
+        for(var i=0; i<list.length; i++)
+            if (!predicate(list[i])) return false;
+        return true;
+    }
+    var costlyProductPredicate = function(p){ return p.cost > 50;};
+    var areAllCostlyProducts = all(products, costlyProductPredicate);
+    console.log("Are all costly products ? ", areAllCostlyProducts);
+});
+
+print("Any", function(){
+    function any(list, predicate){
+        for(var i=0; i<list.length; i++)
+            if (predicate(list[i])) return true;
+        return false;
+    }
+    var costlyProductPredicate = function(p){ return p.cost > 50;};
+    var areAnyProductCostly = any(products, costlyProductPredicate);
+    console.log("Are any products costly ? ", areAnyProductCostly);
+});
+
+print("Min", function(){
+    function min(list, valueSelector){
+        var result = valueSelector(list[0]);
+        for(var i=1; i < list.length; i++){
+            var value = valueSelector(list[i]);
+            if (value < result)
+                result = value;
+        }
+        return result;
+    };
+    var costSelector = function(p){ return p.cost; };
+    var minCost = min(products, costSelector);
+    console.log("Min cost = ", minCost);
+});
+
+print("Aggregate", function(){
+    function aggregate(list, aggregator, seed){
+        var result = seed;
+        var start = 0;
+        if (!seed){
+            result = list[0];
+            start = 1;
+        }
+        for(var i=start; i<list.length; i++)
+            result = aggregator(result, list[i]);
+        return result;
+    }
+    var minUnits = aggregate(products, function(prevResult, product){
+        return prevResult < product.units ? prevResult : product.units;
+    }, Number.MAX_VALUE);
+
+    console.log("Min units = ", minUnits);
+})
+
+print("Transform", function(){
+    function transform(list, transformFn){
+        var result = [];
+        for(var i=0; i<list.length; i++)
+            result.push(transformFn(list[i]));
+        return result;
+    }
+    var productTransformer = function(product){
+        return {
+            name : product.name + " - " + product.id,
+            units : product.units,
+            cost : product.cost,
+            value : product.units * product.cost
+        };
+    }
+    var newProductList = transform(products, productTransformer);
+    console.table(newProductList);
+});
 /*
 sort
 filter
