@@ -78,6 +78,63 @@ print("Sorting", function(){
         });
     });
 });
+
+print("Filter", function(){
+    print("All costly products [Specific]", function(){
+        function filter(){
+            var result = [];
+            for(var i=0; i<products.length; i++){
+                var product = products[i];
+                if (product.cost > 50){
+                    result.push(product)
+                }
+            }
+            return result;
+        };
+        var costlyProducts = filter();
+        console.table(costlyProducts);
+    });
+    print("Generic Filter", function(){
+        function filter(list, predicate){
+            var result = [];
+            for(var i=0; i<list.length; i++){
+                var item = list[i];
+                if (predicate(item)){
+                    result.push(item)
+                }
+            }
+            return result;
+        };
+        function negate(predicate){
+            var negatedPredicate = function() {
+                return !predicate.apply(this, arguments);
+            };
+            return negatedPredicate;
+        }
+        var costlyProductPredicate = function(p) { return p.cost > 50; }
+        var category1ProductPredicate = function(p){ return p.category === 1;};
+
+        print("Costly products [ cost > 50 ]", function(){
+            var costlyProducts = filter(products, costlyProductPredicate);
+            console.table(costlyProducts);
+        });
+        print("All category-1 products", function(){
+            var allCategory1Products = filter(products, category1ProductPredicate);
+            console.table(allCategory1Products);
+        });
+
+        print("Affordable products [ !costlyProduct ]", function(){
+            var affordableProductPredicate = negate(costlyProductPredicate);
+            var affordableProducts = filter(products, affordableProductPredicate);
+            console.table(affordableProducts);
+        });
+        print("All non category-1 products", function(){
+            var nonCategory1ProductPredicate = negate(category1ProductPredicate);
+            var allNonCategory1Products = filter(products, nonCategory1ProductPredicate);
+            console.table(allNonCategory1Products);
+        });
+    });
+});
 /*
 sort
 filter
