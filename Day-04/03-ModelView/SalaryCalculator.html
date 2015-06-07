@@ -15,7 +15,89 @@
             display: block;
         }
     </style>
+    <script src="jquery-2.1.4.js"></script>
     <script>
+        String.prototype.toInt = function(){
+            return parseInt(this.toString(),10);
+        }
+
+        //Model
+        function SalaryCalculator(){
+            var _data = {
+                basic : 0,
+                hra : 0,
+                da : 0,
+                tax : 0,
+                salary : 0
+            };
+            this.get = function(attrName){
+                return _data[attrName];
+            };
+            this.set = function(attrName, value){
+                _data[attrName] = value;
+                //trigger change notification for [attrName]
+                if (typeof _events[attrName] === "function")
+                    _events[attrName]();
+            };
+            var _events = {
+                basic : null,
+                hra : null,
+                da : null,
+                tax : null,
+                salary : null
+            };
+            this.addChangeListener = function(attrName, listenerFn){
+                _events[attrName] = listenerFn;
+            };
+
+
+
+        }
+        SalaryCalculator.prototype.calculate = function(){
+            var gross = this.get('basic') + this.get('hra') + this.get('da');
+            var net = gross * ((100-this.get('tax'))/100);
+            this.set('salary', net);
+
+        }
+
+        //View
+        $(function(){
+            window.calculator = new SalaryCalculator();
+
+            $("#txtBasic").change(function(){
+                calculator.set('basic', $("#txtBasic").val().toInt());
+            });
+            $("#txtHra").change(function(){
+                calculator.set('hra', $("#txtHra").val().toInt());
+            });
+            $("#txtDa").change(function(){
+                calculator.set('da', $("#txtDa").val().toInt());
+            });
+            $("#rangeTax").change(function(){
+                calculator.set('tax', $("#rangeTax").val().toInt());
+            });
+            $("#btnCalculate").click(function(){
+                calculator.calculate();
+            });
+
+
+            calculator.addChangeListener('salary', function(){
+                $("#divResult").html(calculator.get('salary'));
+            });
+            calculator.addChangeListener("basic", function(){
+                $("#txtBasic").val(calculator.get('basic'));
+            });
+            calculator.addChangeListener("hra", function(){
+                $("#txtHra").val(calculator.get('hra'));
+            });
+            calculator.addChangeListener("da", function(){
+                $("#txtDa").val(calculator.get('da'));
+            });
+            calculator.addChangeListener("tax", function(){
+                $("#rangeTax").val(calculator.get('tax'));
+                $("#spanTax").html(calculator.get('tax'));
+            });
+        });
 
 
     </script>
@@ -37,7 +119,7 @@
         </div>
         <div class="field">
             <label for="">Tax %:</label>
-            <input type="range" name="" id="" min="0" max="30" value="0">
+            <input type="range" name="" id="rangeTax" min="0" max="30" value="0">
             <span id="spanTax">[Tax]</span>
         </div>
         <div class="field">
