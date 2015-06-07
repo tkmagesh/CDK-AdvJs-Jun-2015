@@ -30,6 +30,53 @@ print("Sorting", function(){
         sort();
         console.table(products);
     });
+    print("Sort any list by any attribute", function(){
+        function sort(list, attrName){
+            for(var i=0;i< list.length-1; i++)
+                for(var j=i+1; j<list.length; j++){
+                    var left = list[i],
+                        right = list[j];
+                    if (left[attrName] > right[attrName]){
+                        list[i] = right;
+                        list[j] = left;
+                    }
+                }
+        }
+        print("By Cost", function(){
+            sort(products, "cost");
+            console.table(products);
+        });
+         print("By Units", function(){
+            sort(products, "units");
+            console.table(products);
+        });
+
+    });
+     print("Sort any list by any comparer", function(){
+        function sort(list, comparerFn){
+            for(var i=0;i< list.length-1; i++)
+                for(var j=i+1; j<list.length; j++){
+                    var left = list[i],
+                        right = list[j];
+                    if (comparerFn(left, right) > 0){
+                        list[i] = right;
+                        list[j] = left;
+                    }
+                }
+        }
+        print("By value [ units * cost ]", function(){
+            var productComparerByValue = function(p1, p2){
+                var p1Value = p1.cost * p1.units,
+                    p2Value = p2.cost * p2.units;
+
+                if (p1Value < p2Value) return -1;
+                if (p1Value === p2Value) return 0;
+                return 1;
+            }
+            sort(products, productComparerByValue);
+            console.table(products);
+        });
+    });
 });
 /*
 sort
